@@ -1,22 +1,35 @@
 from django.shortcuts import render
-from rest_framework import generics
-from rest_framework.generics import CreateAPIView
-from rest_framework.views import APIView
-from . import serializers
-from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from .serializers import CreateMovieSerializer ,CreateGenresSerializer, MovieDetailSerializer, RatingReviewSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from movies import models
+
+class CreateMovieView(CreateAPIView):
+    #everytime we are deling with database we use queryset 
+    queryset = models.Movie.objects.all()
+    serializer_class = CreateMovieSerializer
+    permission_classes = [IsAdminUser]
+
+class CreateGenresView(CreateAPIView):
+    queryset = models.Genre.objects.all()
+    serializer_class = CreateGenresSerializer
+    # Only admins can create genres, so we use IsAdminUser for the required permission
+    permission_classes = [IsAdminUser] 
 
 
-class RegisterView(CreateAPIView):
-    serializer_class = serializers.RegisterSerializer
+
+class MovieDetailView(ListAPIView):
+    queryset = models.Movie.objects.all()
+    serializer_class = MovieDetailSerializer
+    # Only authenticed users can view details of movie, so we use IsAuthenticated for the required permission
+    permission_classes = [IsAuthenticated]
 
 
-class LoginView(APIView):
-    serializer_class = serializers.LoginSerializer
+class CreateRatingReviewView(CreateAPIView):
+    queryset = models.RatingReview.objects.all()
+    serializer_class = RatingReviewSerializer
+    # Only admins can create genres, so we use IsAdminUser for the required permission
+    permission_classes = [IsAuthenticated] 
+    
+ 
 
-    def post(self, request):
-        serializer = serializers.LoginSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            valid_data = serializer.data
-            return Response(valid_data, status=HTTP_200_OK)
-        return Response(serializer.errors, HTTP_400_BAD_REQUEST) 
