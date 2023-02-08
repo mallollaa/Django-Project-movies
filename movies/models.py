@@ -38,7 +38,7 @@ class RatingReview(models.Model):
     review = models.TextField(max_length=150)
 
 class Watchlist(models.Model):
-    watchList = models.BooleanField(default=False)
+    watched = models.BooleanField(default=False)
     movies = models.ForeignKey(Movie, on_delete= models.CASCADE , related_name="watchList")
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
