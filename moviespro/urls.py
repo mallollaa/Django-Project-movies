@@ -20,12 +20,12 @@ from movies import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/register/', user_view.RegisterView.as_view(), name='api/register'),
-    path('api/login/', user_view.LoginView.as_view(), name='api/login'),
-    path('api/movie/create/',views.CreateMovieView.as_view(), name='api/movie/create'),
-    path('api/genre/create/', views.CreateGenresView.as_view(), name='api/genre'),
-    path('api/movie/detail/', views.MovieDetailView.as_view(), name='api/movie/detail'),
-    path('api/rate/view', views.CreateRatingReviewView.as_view(), name='api/rate/review'),
-    path('api/watchlist/add', views.WatchListView.as_view(), name='api/watchlist/add'),
+    path('api/register/', user_view.RegisterView.as_view(), name='register'),
+    path('api/login/', user_view.LoginView.as_view(), name='login'),
+    path('api/movie/create/',views.CreateMovieView.as_view(), name='movie_create'),
+    path('api/genre/create/', views.CreateGenresView.as_view(), name='genre'),
+    path('api/movie/detail/', views.MovieDetailView.as_view(), name='movie_detail'),
+    path('api/rate/view', views.CreateRatingReviewView.as_view(), name='review'),
+    path('api/watchlist/add/<int:movie_id>/', views.WatchListView.as_view(), name='watchlist_add'),
     ]
 

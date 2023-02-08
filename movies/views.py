@@ -12,7 +12,6 @@ class CreateMovieView(CreateAPIView):
     permission_classes = [IsAdminUser]
 
 class CreateGenresView(CreateAPIView):
-    queryset = models.Genre.objects.all()
     serializer_class = CreateGenresSerializer
     # Only admins can create genres, so we use IsAdminUser for the required permission
     permission_classes = [IsAdminUser] 
@@ -33,13 +32,12 @@ class CreateRatingReviewView(CreateAPIView):
     permission_classes = [IsAuthenticated] 
 
 class WatchListView(CreateAPIView):
-    queryset = models.Watchlist.objects.all()
     serializer_class = WatchListSerializer
     # Only admins can create genres, so we use IsAdminUser for the required permission
-    permission_classes = [IsAuthenticated] 
-    lookup_field = 'id'
-    lookup_url_kwarg = 'watchlist_id'
-    
+    def perform_create(self, serializer):
+        movie = models.Movie.objects.get(id=self.kwargs["movie_id"])
+        serializer.save(user=self.request.user,movies=movie) #grabbing user from token by accessing it from user that's within the request object in self 
+        
     
     
    

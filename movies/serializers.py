@@ -23,6 +23,8 @@ class RatingReviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'rating_range', 'review', 'movie', 'user'] # ask about id and its relations (user, movie)
 
 class WatchListSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True) #specifying here that user field is going to be read only and not inputted through postman
+    watched = serializers.BooleanField(read_only=True) #specifying here that user field is going to be read only and not inputted through postman
     class Meta:
         model = Watchlist
-        fields = ['id', 'watched', 'movies', 'user']
+        fields = ['watched', 'movies', 'user']

@@ -39,8 +39,8 @@ class RatingReview(models.Model):
 
 class Watchlist(models.Model):
     watched = models.BooleanField(default=False)
-    movies = models.ForeignKey(Movie, on_delete= models.CASCADE , related_name="watchList")
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    movies = models.ForeignKey(Movie, on_delete= models.CASCADE , related_name="movie_watchlist")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_watchlist")
 
 
 
